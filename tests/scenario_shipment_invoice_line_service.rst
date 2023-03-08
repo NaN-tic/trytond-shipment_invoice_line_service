@@ -165,7 +165,6 @@ Sale create invoice lines when shipments done (when invoice_method is shipment):
 
 Sale create invoice lines when sale is confirmed (when invoice_method is order)::
 
-    >>> Sale = Model.get('sale.sale')
     >>> sale = Sale()
     >>> sale.party = customer
     >>> sale.shipment_method = 'invoice'
@@ -182,6 +181,35 @@ Sale create invoice lines when sale is confirmed (when invoice_method is order):
     >>> sale.click('confirm')
     >>> len(sale.invoices) == 1
     True
+    >>> invoice, = sale.invoices
+    >>> line1, line2 = invoice.lines
+    >>> (line1.product.type, line2.product.type) == ('goods', 'service')
+    True
+
+Sale create invoice lines when shipments return received (when invoice_method is shipment)::
+
+    >>> sale = Sale()
+    >>> sale.party = customer
+    >>> sale.shipment_method = 'order'
+    >>> sale.invoice_method = 'shipment'
+    >>> line = sale.lines.new()
+    >>> line.product = product
+    >>> line.quantity = -10.0
+    >>> line.unit_price = Decimal('10')
+    >>> line = sale.lines.new()
+    >>> line.product = service
+    >>> line.quantity = -10.0
+    >>> line.unit_price = Decimal('10')
+    >>> sale.click('quote')
+    >>> sale.click('confirm')
+    >>> len(sale.invoices) == 0
+    True
+    >>> len(sale.shipment_returns) != 0
+    True
+    >>> shipment, = sale.shipment_returns
+    >>> shipment.click('receive')
+    >>> shipment.click('done')
+    >>> sale.reload()
     >>> invoice, = sale.invoices
     >>> line1, line2 = invoice.lines
     >>> (line1.product.type, line2.product.type) == ('goods', 'service')
