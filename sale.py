@@ -14,7 +14,10 @@ class SaleLine(metaclass=PoolMeta):
                 and self.sale.shipment_method == 'order'
                 and self.sale.invoice_method == 'shipment'):
             shipments_done = [
-                s for s in self.sale.shipments if s.state == 'done']
+                s for s in self.sale.shipments if s.state == 'done'
+                ] + [
+                s for s in self.sale.shipment_returns if s.state == 'received'
+                ]
             if shipments_done:
                 return quantity
             else:
