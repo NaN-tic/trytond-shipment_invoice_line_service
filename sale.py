@@ -16,7 +16,7 @@ class SaleLine(metaclass=PoolMeta):
             shipments_done = [
                 s for s in self.sale.shipments if s.state == 'done'
                 ] + [
-                s for s in self.sale.shipment_returns if s.state == 'received'
+                s for s in self.sale.shipment_returns if s.state in ('received', 'done')
                 ]
             if shipments_done:
                 return quantity
