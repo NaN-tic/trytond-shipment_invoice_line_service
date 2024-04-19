@@ -156,7 +156,7 @@ Sale create invoice lines when shipments done (when invoice_method is shipment):
     >>> shipment.click('assign_try')
     >>> shipment.click('pick')
     >>> shipment.click('pack')
-    >>> shipment.click('done')
+    >>> shipment.click('do')
     >>> sale.reload()
     >>> invoice, = sale.invoices
     >>> line1, line2 = invoice.lines
@@ -208,7 +208,7 @@ Sale create invoice lines when shipments return received (when invoice_method is
     True
     >>> shipment, = sale.shipment_returns
     >>> shipment.click('receive')
-    >>> shipment.click('done')
+    >>> shipment.click('do')
     >>> sale.reload()
     >>> invoice, = sale.invoices
     >>> line1, line2 = invoice.lines
