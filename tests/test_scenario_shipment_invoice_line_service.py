@@ -89,9 +89,9 @@ class Test(unittest.TestCase):
         template.type = 'goods'
         template.salable = True
         template.account_category = account_category_tax
+        template.list_price = Decimal('10')
         template.save()
         product, = template.products
-        product.list_price = Decimal('10')
         product.save()
         template = ProductTemplate()
         template.name = 'service'
