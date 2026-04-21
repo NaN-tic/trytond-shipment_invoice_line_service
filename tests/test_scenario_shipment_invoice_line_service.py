@@ -122,12 +122,12 @@ class Test(unittest.TestCase):
         inventory.click('confirm')
         self.assertEqual(inventory.state, 'done')
 
-        # Sale create invoice lines when shipments done (when invoice_method is shipment)
+        # Sale create invoice lines when shipments done (when invoice_method is fulfillment)
         Sale = Model.get('sale.sale')
         sale = Sale()
         sale.party = customer
         sale.shipment_method = 'order'
-        sale.invoice_method = 'shipment'
+        sale.invoice_method = 'fulfillment'
         line = sale.lines.new()
         line.product = product
         line.quantity = 10.0
@@ -174,11 +174,11 @@ class Test(unittest.TestCase):
         self.assertEqual((line1.product.type, line2.product.type),
                          ('goods', 'service'))
 
-        # Sale create invoice lines when shipments return received (when invoice_method is shipment)
+        # Sale create invoice lines when shipments return received (when invoice_method is fulfillment)
         sale = Sale()
         sale.party = customer
         sale.shipment_method = 'order'
-        sale.invoice_method = 'shipment'
+        sale.invoice_method = 'fulfillment'
         line = sale.lines.new()
         line.product = product
         line.quantity = -10.0

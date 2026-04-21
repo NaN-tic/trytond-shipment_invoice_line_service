@@ -12,7 +12,7 @@ class SaleLine(metaclass=PoolMeta):
         if (has_goods
                 and self.product and self.product.type == 'service'
                 and self.sale.shipment_method == 'order'
-                and self.sale.invoice_method == 'shipment'):
+                and self.sale.invoice_method == 'fulfillment'):
             shipments_done = [
                 s for s in self.sale.shipments if s.state == 'done'
                 ] + [
